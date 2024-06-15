@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Pharmacy Management</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .message { color: green; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Pharmacy Management System</h1>
+    <h1>Apollo pharmacy</h1>
+        <h2>Stocked Drugs</h2>
+        <button id="fetch-drugs">Fetch Stocked Drugs</button>
+        <ul id="drug-list"></ul>
+        <script src="app.js"></script>
+        <p>Drug A</p>
+        <p>Drug B</p>
+        <p>Drug C</p>
+            <p>Drug D</p>
+                <p>Drug E</p>  
+                <p>Drug F</p>  
+                <p>Drug G</p>  
+                <p>Drug H</p>  
+                <p>Drug I</p>  
+                <p>Drug J</p>  
+                <p>Drug K</p>    
+    <h2>Add New Stock</h2>
+            <form id="addStockForm">
+                <label for="drug_name">Drug Name:</label>
+                <input type="text" id="drug_name" name="drug_name" required><br><br>
+                
+                <label for="batch_number">Batch Number:</label>
+                <input type="number" id="batch_number" name="batch_number" required><br><br>
+                
+                <label for="medicine_type">Medicine Type:</label>
+                <input type="text" id="medicine_type" name="medicine_type" required><br><br>
+                
+                <label for="manufacturer">Manufacturer:</label>
+                <input type="text" id="manufacturer" name="manufacturer" required><br><br>
+                
+                <label for="stock_quantity">Stock Quantity:</label>
+                <input type="number" id="stock_quantity" name="stock_quantity" required><br><br>
+                
+                <label for="expiry_date">Expiry Date:</label>
+                <input type="date" id="expiry_date" name="expiry_date" required><br><br>
+                
+                <label for="price">Price:</label>
+                <input type="number" id="price" name="price" step="0.01" required><br><br>
+                
+                <button type="submit">Add Stock</button>
+            </form>
+            
+            <div id="message" class="message"></div>
+        
+           
+        
+            <script>
+                document.getElementById('addStockForm').addEventListener('submit', async function(event) {
+                    event.preventDefault();
+        
+                    const formData = {
+                        drug_name: document.getElementById('drug_name').value,
+                        batch_number: document.getElementById('batch_number').value,
+                        medicine_type: document.getElementById('medicine_type').value,
+                        manufacturer: document.getElementById('manufacturer').value,
+                        stock_quantity: document.getElementById('stock_quantity').value,
+                        expiry_date: document.getElementById('expiry_date').value,
+                        price: document.getElementById('price').value
+                    };
+        
+                    const response = await fetch('/add-stock', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    });
+        
+                    const result = await response.json();
+                    const messageDiv = document.getElementById('message');
+        
+                    if (response.ok) {
+                        messageDiv.textContent = result.message;
+                        messageDiv.style.color = 'green';
+                    } else {
+                        messageDiv.textContent = 'Failed to add stock';
+                        messageDiv.style.color = 'red';
+                    }
+        
+                    // Clear the form
+                    document.getElementById('addStockForm').reset();
+                });
+        
+            </script>
+
+    <section>
+        <h2>Generate Bill</h2>
+    <form id="billForm">
+        <label for="customerId">Customer ID:</label>
+        <input type="text" id="customerId" name="customerId" required><br><br>
+
+        <label for="orderId">Order ID:</label>
+        <input type="text" id="orderId" name="orderId" required><br><br>
+
+        <label for="totalAmount">Total Amount:</label>
+        <input type="text" id="totalAmount" name="totalAmount" required><br><br>
+
+        <label for="customerPayment">Customer Payment:</label>
+        <input type="text" id="customerPayment" name="customerPayment" required><br><br>
+
+        <button type="submit">Generate Bill</button>
+    </form>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+        $(document).ready(function() {
+            $('#billForm').submit(function(event) {
+                event.preventDefault();
+                var customerId = $('#customerId').val();
+                var orderId = $('#orderId').val();
+                var totalAmount = $('#totalAmount').val();
+                var customerPayment = $('#customerPayment').val();
+
+                $.ajax({
+                    url: '/generate-bill',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        customer_id: customerId,
+                        order_id: orderId,
+                        total_amount: totalAmount,
+                        customer_payment: customerPayment
+                    }),
+                    success: function(response) {
+                        alert('Bill generated and message sent successfully');
+                    },
+                    error: function(error) {
+                        alert('Error generating bill');
+                    }
+                });
+            });
+        });
+    </script>
+
+    </section>
+
+    
+    
+    
+</body>
+</html>
