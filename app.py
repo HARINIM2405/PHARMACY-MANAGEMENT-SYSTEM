@@ -11,9 +11,9 @@ app = Flask(__name__)
 load_dotenv()
 
 # Twilio configuration
-TWILIO_ACCOUNT_SID = os.getenv('AC0ab1016261b84e9f90d9c467fa5b0983')
-TWILIO_AUTH_TOKEN = os.getenv('a855157a36a4c79e3efd1b7e4a032cba')
-TWILIO_PHONE_NUMBER = os.getenv('+13343759877')
+TWILIO_ACCOUNT_SID = os.getenv('your_TWILIO_ACCOUNT_SID')
+TWILIO_AUTH_TOKEN = os.getenv('your_TWILIO_AUTH_TOKEN')
+TWILIO_PHONE_NUMBER = os.getenv('your_TWILIO_PHONE_NUMBER')
 
 client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
 
